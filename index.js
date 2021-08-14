@@ -87,7 +87,7 @@ ws.onmessage = e => {
     const second = date.getSeconds()
     const minute = date.getMinutes();
     const hour = date.getHours();
-    const time = `${hour + 5}:${minute + 30}:${second}`;
+    const time = `${hour}:${minute}:${second}`;
     if (minute == 0 && second == 0 || 1) delete_old_stick(hour);
     insert_new_stick({ hour, time, utc: E, o, c, h, l, v })
 }
