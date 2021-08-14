@@ -72,10 +72,11 @@ const delete_old_stick = async (hour) => {
     await supabase.from('sticks').delete().match({ thehour: target_hour })
 }
 
-const insert_new_stick = async ({ hour, time, o, c, h, l, v }) => {
-    await supabase
-        .from('sticks')
-        .insert([{ thehour: hour, thetime: time, open_price: o, close_price: c, high_price: h, low_price: l, volume: v }])
+const insert_new_stick = async ({ hour, time, utc, o, c, h, l, v }) => {
+    console.log({ hour, time, utc, o, c, h, l, v });
+    // await supabase
+    //     .from('sticks')
+    //     .insert([{ thehour: hour, thetime: time,utctime:utc, open_price: o, close_price: c, high_price: h, low_price: l, volume: v }])
 }
 
 const ws = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@kline_5m')
@@ -86,8 +87,8 @@ ws.onmessage = e => {
     const second = date.getSeconds()
     const minute = date.getMinutes();
     const hour = date.getHours();
-    const time = `${hour}:${minute}:${second}`;
+    const time = `${hour + 5}:${minute + 30}:${second}`;
     if (minute == 0 && second == 0 || 1) delete_old_stick(hour);
-    insert_new_stick({ hour, time, o, c, h, l, v })
+    insert_new_stick({ hour, time, utc: E, o, c, h, l, v })
 }
 
